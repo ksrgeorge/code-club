@@ -9,7 +9,7 @@ terraform {
     bucket         	   = "terraform-s3-state-npm"
     key                = "state/terraform.tfstate"
     region         	   = "eu-west-2"
-    encrypt        	   = true
+    #encrypt        	   = true
   }
 }
 
