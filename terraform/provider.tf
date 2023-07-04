@@ -12,6 +12,7 @@ terraform {
     region         	   = "eu-west-2"
     encrypt        	   = true
     dynamodb_table     = "mycomponents_tf_lockid"
+    profile            = "default"
     skip_credentials_validation = true
   }
 }
