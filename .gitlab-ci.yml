@@ -16,8 +16,8 @@ before_script:
   #- export AWS_DEFAULT_REGION="$AWS_DEFAULT_REGION"
   - cd terraform
   - rm -rf .terraform
-  - echo '$AWS_SECRET_ACCESS_KEY'
-  - echo '$AWS_ACCESS_KEY_ID'
+  - echo $AWS_SECRET_ACCESS_KEY
+  - echo $AWS_ACCESS_KEY_ID
   - terraform --version
   - terraform init
 validate:
