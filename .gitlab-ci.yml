@@ -2,7 +2,6 @@ stages:
   - validate
   - plan
   - apply
-  #- test
   - build
   - deploy
 image:
@@ -55,23 +54,6 @@ apply:
   rules:
     - if: '$CI_COMMIT_REF_NAME == "main"'
       when: always
-
-#unit test:
-#  image: node:latest
-#  stage: test
-#  before_script:
-#    - cd my-app
-#    - npm install
-#  script:
-#    - npm run test:ci
-#  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
-#  artifacts:
-#    paths:
-#      - /builds/$CI_PROJECT_PATH/my-app/coverage/
-#    when: always
-#    reports:
-#      junit:
-#        - junit.xml
 
 build artifact:
   stage: build
