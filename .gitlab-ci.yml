@@ -14,19 +14,22 @@ variables:
   AWS_ACCESS_KEY: $AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY_ID: $AWS_SECRET_ACCESS_KEY
   AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
-before_script:
-  - cd terraform
-  - rm -rf .terraform
-  - echo "$AWS_ACCESS_KEY_ID"
-  - echo "$AWS_SECRET_ACCESS_KEY_ID"
-  - terraform --version
-  - terraform init
 validate:
   stage: validate
+  before_script:
+  - cd terraform
+  - rm -rf .terraform
+  - terraform --version
+  - terraform init
   script:
     - terraform validate
 plan:
   stage: plan
+  before_script:
+  - cd terraform
+  - rm -rf .terraform
+  - terraform --version
+  - terraform init
   script:
     - terraform plan -out "planfile" -lock=false
   dependencies:
@@ -36,8 +39,61 @@ plan:
       - /builds/$CI_PROJECT_PATH/terraform/planfile
 apply:
   stage: apply
+  before_script:
+  - cd terraform
+  - rm -rf .terraform
+  - terraform --version
+  - terraform init
   script:
     - terraform apply -lock=false -input=false "planfile" 
   dependencies:
     - plan
-  when: manual
+  #when: manual
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"'
+      when: always
+
+unit test:
+  image: node:latest
+  stage: test
+  before_script:
+    - cd my-app
+    - npm install
+  script:
+    - npm run test:ci
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  artifacts:
+    paths:
+      - /builds/$CI_PROJECT_PATH/my-app/coverage/
+    when: always
+    reports:
+      junit:
+        - junit.xml
+
+build artifact:
+  stage: build
+  image: node:latest
+  before_script:
+    - cd my-app
+    - npm install
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - /builds/$CI_PROJECT_PATH/my-app/build/
+    when: always
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"'
+      when: always
+
+deploy s3:
+  stage: deploy
+  image:
+    name: amazon/aws-cli:latest
+    entrypoint: 
+      - '/usr/bin/env'
+  script:
+    - aws s3 sync /builds/$CI_PROJECT_PATH/my-app/build/ s3://$S3_BUCKET
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"'
+      when: always
