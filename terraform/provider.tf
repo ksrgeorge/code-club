@@ -7,7 +7,7 @@ terraform {
   }
   backend "s3" {
     bucket         	   = "terraform-s3-state-npm"
-    key                = "state/terraform.tfstate"
+    key                = "terraform.tfstate"
     region         	   = "eu-west-2"
     encrypt        	   = true
     skip_credentials_validation = true
