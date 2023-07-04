@@ -21,7 +21,7 @@ before_script:
   - cd terraform
   - rm -rf .terraform
   - echo "$AWS_ACCESS_KEY_ID"
-  - echo "$FOO"
+  - echo "$AWS_SECRET_ACCESS_KEY"
   - terraform --version
   - terraform init
 validate:
