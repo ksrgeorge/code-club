@@ -4,6 +4,7 @@ stages:
   - apply
   - build
   - deploy
+
 image:
   name: registry.gitlab.com/gitlab-org/gitlab-build-images:terraform
   entrypoint:
@@ -12,10 +13,11 @@ image:
     - AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
     - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
     - AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+
 variables:
   AWS_ACCESS_KEY: $AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY_ID: $AWS_SECRET_ACCESS_KEY
-  #AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+
 validate:
   stage: validate
   before_script:
@@ -25,6 +27,7 @@ validate:
   - terraform init
   script:
     - terraform validate
+
 plan:
   stage: plan
   before_script:
@@ -39,6 +42,7 @@ plan:
   artifacts:
     paths:
       - /builds/$CI_PROJECT_PATH/terraform/planfile
+
 apply:
   stage: apply
   before_script:
@@ -50,7 +54,6 @@ apply:
     - terraform apply -lock=false -input=false "planfile" 
   dependencies:
     - plan
-  #when: manual
   rules:
     - if: '$CI_COMMIT_REF_NAME == "main"'
       when: always
