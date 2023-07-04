@@ -33,7 +33,7 @@ plan:
     - validate
   artifacts:
     paths:
-      - planfile
+      - /builds/$CI_PROJECT_PATH/planfile
 apply:
   stage: apply
   script:
