@@ -3,7 +3,6 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 4.0"
-      region = "eu-west-2"
     }
   }
   backend "s3" {
@@ -15,4 +14,9 @@ terraform {
     profile            = "default"
     skip_credentials_validation = true
   }
+}
+
+# Configure the AWS Provider
+provider "aws" {
+  region = "eu-west-2"
 }
