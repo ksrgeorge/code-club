@@ -37,7 +37,7 @@ plan:
 apply:
   stage: apply
   script:
-    - terraform apply -input=false "planfile" -lock=false
+    - terraform apply -lock=false -input=false "planfile" 
   dependencies:
     - plan
   when: manual
