@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <h1>Hello, AWS S3!</h1>
       <p>This is a simple React application deployed to AWS S3.</p>
-      <p>LSEG</p>
+      <p>CodeClub</p>
     </div>
   );
 }
