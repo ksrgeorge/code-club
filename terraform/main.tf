@@ -1,8 +1,8 @@
 resource "aws_s3_bucket" "test-npm-bucket" {
-  bucket = "codeclub-test-npm"
+  bucket = "codeclub-npm"
 
   tags = {
-    Name        = "codeclub-test-npm"
+    Name        = "codeclub-npm"
     Environment = "Dev"
   }
 }
